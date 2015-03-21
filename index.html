@@ -1,0 +1,22 @@
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8">
+		<title>DIARY</title>
+	</head>
+	<body>
+		<h2 id="header">Diary</h2>
+		<!-- buttons: next, prev, add -->
+		<table>
+			<tr>
+				<td><input id="prevbutton" type="button" onclick="prevElement();" value="prev" /></td>
+				<td><input id="nextbutton" type="button" onclick="nextElement();" value="next" /></td>
+				<td><input id="addbutton" type="button" onclick="addElement();" value="add" /></td>
+			</tr>
+		</table>
+		<div id="date"></div>
+		<div id="day"></div>
+		<div id="tasks">
+			<ul id="taskslist"></ul>
+		</div>
+	</body>
+</html>
