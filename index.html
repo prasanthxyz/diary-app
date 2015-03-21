@@ -2,6 +2,26 @@
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
 		<title>DIARY</title>
+		<script language = "javascript">
+var XMLHttpRequestObject = false;
+
+var getXMLHTTPRequestObject = function() {
+	var XMLHttpRequestObject = false;
+	try {
+		XMLHttpRequestObject = new ActiveXObject("MSXML2.XMLHTTP");
+	} catch (exception1) {
+		try {
+			XMLHttpRequestObject = new ActiveXObject("Microsoft.XMLHTTP");
+		} catch (exception2) {
+			XMLHttpRequestObject = false;
+		}
+	}
+	if (!XMLHttpRequestObject && window.XMLHttpRequest) {
+		XMLHttpRequestObject = new XMLHttpRequest();
+	}
+	return XMLHttpRequestObject;
+}
+		</script>
 	</head>
 	<body>
 		<h2 id="header">Diary</h2>
