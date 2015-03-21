@@ -21,16 +21,77 @@ var getXMLHTTPRequestObject = function() {
 	}
 	return XMLHttpRequestObject;
 }
+
+var diary_data;
+function getJsonData(url)
+{
+	var XMLHttpRequestObject = getXMLHTTPRequestObject();
+	if(XMLHttpRequestObject) {
+		XMLHttpRequestObject.open("GET", url);
+		XMLHttpRequestObject.setRequestHeader("Content-type", "application/json");
+		XMLHttpRequestObject.onreadystatechange = function()
+		{
+			if (XMLHttpRequestObject.readyState == 4 && XMLHttpRequestObject.status == 200) {
+				diary_data = JSON.parse(XMLHttpRequestObject.responseText);
+				chDay(2);
+			}
+		}
+		XMLHttpRequestObject.send(null);
+	} else {
+		console.log("AJAX not supported.");
+	}
+}
 		</script>
 	</head>
-	<body>
+	<body onload="init()">
+		<script language="javascript">
+var cur;
+function init()
+{
+	getJsonData('diary.json');
+	cur = -1;
+	document.getElementById("prevbutton").onclick = function() { chDay(1); };
+	document.getElementById("nextbutton").onclick = function() { chDay(2); };
+	document.getElementById("prevbutton").disabled = true;
+}
+
+function setButtons()
+{
+	if(cur == 0)
+		document.getElementById("prevbutton").disabled = true;
+	else if(cur == diary_data.length-1)
+		document.getElementById("nextbutton").disabled = true;
+	else {
+		document.getElementById("prevbutton").disabled = false;
+		document.getElementById("nextbutton").disabled = false;
+	}
+}
+
+function setData(data)
+{
+	document.getElementById("date").innerHTML = data.date;
+	document.getElementById("day").innerHTML = data.day;
+	document.getElementById("taskslist").innerHTML = "";
+	for(var tsk = 0; tsk < data.tasks.length; tsk++)
+		document.getElementById("taskslist").innerHTML += "<li>"+data.tasks[tsk]+"</li>";
+}
+
+function chDay(opn) {
+	if(opn == 1)
+		cur--;
+	else if(opn == 2)
+		cur++;
+	setButtons();
+	setData(diary_data[cur]);
+}
+		</script>
 		<h2 id="header">Diary</h2>
 		<!-- buttons: next, prev, add -->
 		<table>
 			<tr>
-				<td><input id="prevbutton" type="button" onclick="prevElement();" value="prev" /></td>
-				<td><input id="nextbutton" type="button" onclick="nextElement();" value="next" /></td>
-				<td><input id="addbutton" type="button" onclick="addElement();" value="add" /></td>
+				<td><input id="prevbutton" type="button" value="prev" /></td>
+				<td><input id="nextbutton" type="button" value="next" /></td>
+				<td><input id="addbutton" type="button" value="add" /></td>
 			</tr>
 		</table>
 		<div id="date"></div>
