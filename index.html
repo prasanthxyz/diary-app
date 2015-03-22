@@ -2,26 +2,9 @@
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
 		<title>DIARY</title>
+		<script language = "javascript" src = "ajax.js"></script>
 		<script language = "javascript">
 var XMLHttpRequestObject = false;
-
-var getXMLHTTPRequestObject = function() {
-	var XMLHttpRequestObject = false;
-	try {
-		XMLHttpRequestObject = new ActiveXObject("MSXML2.XMLHTTP");
-	} catch (exception1) {
-		try {
-			XMLHttpRequestObject = new ActiveXObject("Microsoft.XMLHTTP");
-		} catch (exception2) {
-			XMLHttpRequestObject = false;
-		}
-	}
-	if (!XMLHttpRequestObject && window.XMLHttpRequest) {
-		XMLHttpRequestObject = new XMLHttpRequest();
-	}
-	return XMLHttpRequestObject;
-}
-
 var diary_data;
 function getJsonData(url)
 {
@@ -34,6 +17,7 @@ function getJsonData(url)
 			if (XMLHttpRequestObject.readyState == 4 && XMLHttpRequestObject.status == 200) {
 				diary_data = JSON.parse(XMLHttpRequestObject.responseText);
 				chDay(2);
+				setButtons();
 			}
 		}
 		XMLHttpRequestObject.send(null);
@@ -52,7 +36,6 @@ function init()
 	cur = -1;
 	document.getElementById("prevbutton").onclick = function() { chDay(1); };
 	document.getElementById("nextbutton").onclick = function() { chDay(2); };
-	document.getElementById("prevbutton").disabled = true;
 }
 
 function setButtons()
