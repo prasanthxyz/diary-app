@@ -2,61 +2,59 @@
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
 		<title>DIARY</title>
-		<script language = "javascript" src = "ajax.js"></script>
+		<script language = "javascript" src = "jquery-1.10.0.min.js"></script>
 		<script language = "javascript">
-var XMLHttpRequestObject = false;
 var diary_data;
 function getJsonData(url)
 {
-	var XMLHttpRequestObject = getXMLHTTPRequestObject();
-	if(XMLHttpRequestObject) {
-		XMLHttpRequestObject.open("GET", url);
-		XMLHttpRequestObject.setRequestHeader("Content-type", "application/json");
-		XMLHttpRequestObject.onreadystatechange = function()
-		{
-			if (XMLHttpRequestObject.readyState == 4 && XMLHttpRequestObject.status == 200) {
-				diary_data = JSON.parse(XMLHttpRequestObject.responseText);
-				chDay(2);
-				setButtons();
-			}
+	$.ajax({
+		url: url,
+		type: "GET",
+		dataType : "json",
+		success: function( response ) {
+			diary_data = response;
+			chDay(2);
+			setButtons();
+		},
+		error: function( xhr, status, errorThrown ) {
+			console.log( "Error: " + errorThrown );
+			console.log( "Status: " + status );
+			console.dir( xhr );
 		}
-		XMLHttpRequestObject.send(null);
-	} else {
-		console.log("AJAX not supported.");
-	}
+	});
 }
 		</script>
 	</head>
-	<body onload="init()">
+	<body>
 		<script language="javascript">
 var cur;
-function init()
-{
+$(document).ready(function() {
 	getJsonData('diary.json');
 	cur = -1;
-	document.getElementById("prevbutton").onclick = function() { chDay(1); };
-	document.getElementById("nextbutton").onclick = function() { chDay(2); };
-}
+	$("#prevbutton").click(function() { chDay(1); });
+	$("#nextbutton").click(function() { chDay(2); });
+});
 
 function setButtons()
 {
 	if(cur == 0)
-		document.getElementById("prevbutton").disabled = true;
+		$("#prevbutton").attr('disabled', true);
 	else if(cur == diary_data.length-1)
-		document.getElementById("nextbutton").disabled = true;
+		$('#nextbutton').attr('disabled', true);
 	else {
-		document.getElementById("prevbutton").disabled = false;
-		document.getElementById("nextbutton").disabled = false;
+		$("#prevbutton").removeAttr('disabled');
+		$("#nextbutton").removeAttr('disabled');
 	}
 }
 
 function setData(data)
 {
-	document.getElementById("date").innerHTML = data.date;
-	document.getElementById("day").innerHTML = data.day;
-	document.getElementById("taskslist").innerHTML = "";
-	for(var tsk = 0; tsk < data.tasks.length; tsk++)
-		document.getElementById("taskslist").innerHTML += "<li>"+data.tasks[tsk]+"</li>";
+	$('#date').html(data.date);
+	$('#day').html(data.day);
+	$('#taskslist').html("");
+	jQuery.each(data.tasks, function(ind, obj) {
+		$("#taskslist").append("<li>"+obj+"</li>");
+	});
 }
 
 function chDay(opn) {
