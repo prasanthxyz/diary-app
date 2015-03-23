@@ -20,9 +20,18 @@ function getJsonData(url)
 var cur;
 $(document).ready(function() {
 	getJsonData('diary.json');
+	$("#addData").hide();
 	cur = -1;
 	$("#prevbutton").click(function() { chDay(1); });
 	$("#nextbutton").click(function() { chDay(2); });
+	$("#addbutton").click(function() {
+		$("#displayData").hide();
+		$("#addData").show();
+	});
+	$("#backbutton").click(function() {
+		$("#displayData").show();
+		$("#addData").hide();
+	});
 });
 
 function setButtons()
@@ -73,6 +82,30 @@ function chDay(opn) {
 			</div>
 		</div>
 		<div id="addData">
+			<input id="backbutton" type="button" value="back" />
+			</table>
+			<form id="addDataForm" action="" method="post" accept-charset="utf-8">
+				<table id="addDataTable">
+					<tr>
+						<td>Date</td><td><input name="date" /></td>
+					</tr>
+					<tr>
+						<td>Day</td><td><input name="day" /></td>
+					</tr>
+					<tr>
+						<td>Tasks</td><td><input name="task1" /></td><td><input id="addTaskButton" type="button" value = "+"/>
+					</tr>
+				</table>
+			<p><input id="addDataButton" type="submit" value="Add"></p>
+			<script language="javascript">
+var ntasks = 1;
+$("#addTaskButton").click(function() {
+	ntasks++;
+	nexttr = '<td></td><td><input name="task'+ntasks+'" /></td>';
+	$("#addDataTable").append("<tr>"+nexttr+"</tr>");
+});
+			</script>
+			</form>
 		</div>
 	</body>
 </html>
