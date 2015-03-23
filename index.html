@@ -92,8 +92,11 @@ function chDay(opn) {
 					<tr>
 						<td>Day</td><td><input name="day" /></td>
 					</tr>
+					<tr id='taskstart'>
+						<td>Tasks:</td>
+					</tr>
 					<tr>
-						<td>Tasks</td><td><input name="task1" /></td><td><input id="addTaskButton" type="button" value = "+"/>
+						<td></td><td><textarea name="task1"></textarea></td><td><input id="addTaskButton" type="button" value = "+"/>
 					</tr>
 				</table>
 			<p><input id="addDataButton" type="submit" value="Add"></p>
@@ -101,8 +104,8 @@ function chDay(opn) {
 var ntasks = 1;
 $("#addTaskButton").click(function() {
 	ntasks++;
-	nexttr = '<td></td><td><input name="task'+ntasks+'" /></td>';
-	$("#addDataTable").append("<tr>"+nexttr+"</tr>");
+	nexttr = '<td></td><td><textarea name="task'+ntasks+'"></textarea></td>';
+	$("#taskstart").after("<tr>"+nexttr+"</tr>");
 });
 			</script>
 			</form>
