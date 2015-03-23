@@ -7,20 +7,10 @@
 var diary_data;
 function getJsonData(url)
 {
-	$.ajax({
-		url: url,
-		type: "GET",
-		dataType : "json",
-		success: function( response ) {
+	$.getJSON(url, function(response) {
 			diary_data = response;
 			chDay(2);
 			setButtons();
-		},
-		error: function( xhr, status, errorThrown ) {
-			console.log( "Error: " + errorThrown );
-			console.log( "Status: " + status );
-			console.dir( xhr );
-		}
 	});
 }
 		</script>
@@ -68,17 +58,21 @@ function chDay(opn) {
 		</script>
 		<h2 id="header">Diary</h2>
 		<!-- buttons: next, prev, add -->
-		<table>
-			<tr>
-				<td><input id="prevbutton" type="button" value="prev" /></td>
-				<td><input id="nextbutton" type="button" value="next" /></td>
-				<td><input id="addbutton" type="button" value="add" /></td>
-			</tr>
-		</table>
-		<div id="date"></div>
-		<div id="day"></div>
-		<div id="tasks">
-			<ul id="taskslist"></ul>
+		<div id="displayData">
+			<table>
+				<tr>
+					<td><input id="prevbutton" type="button" value="prev" /></td>
+					<td><input id="nextbutton" type="button" value="next" /></td>
+					<td><input id="addbutton" type="button" value="add" /></td>
+				</tr>
+			</table>
+			<div id="date"></div>
+			<div id="day"></div>
+			<div id="tasks">
+				<ul id="taskslist"></ul>
+			</div>
+		</div>
+		<div id="addData">
 		</div>
 	</body>
 </html>
